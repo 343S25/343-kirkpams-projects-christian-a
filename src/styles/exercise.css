@@ -1,0 +1,25 @@
+body {
+    margin: 0;
+    background-color: #DCE6F0;
+}
+
+#exercises-title {
+    display: flex;
+    justify-content: center;
+    color: #1E5078;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 60px;
+    font-weight: bold;
+    margin: 2vh 0;
+}
+
+#exercise-box {
+    background-color: #F5FAFF;
+    border-radius: 64px;
+    height: 70vh;
+    margin-top: 0;
+    margin-bottom: 1vh;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    margin: 0 4vw;
+}

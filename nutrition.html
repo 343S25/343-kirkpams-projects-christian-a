@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <title> Nutrition </title>
+        <link rel="stylesheet" href="./styles/header.css">
+        <link rel="stylesheet" href="./styles/nutrition.css">
+        <link rel="stylesheet" href="./styles/footer.css">
+    </head>
+
+    <body>
+        <header>
+            <div id="header-top">
+                <div id="title-logo">
+                    <h1 id="title"><a href="index.html">Health Journal</a></h1>
+                    <img id="logo" src="./images/heart" alt="Heart icon representing health and wellness">
+                </div>
+                <div id="world-clock">00:00:00 AM</div>
+                <div id="nav-expand"></div>
+            </div>
+
+            <nav>
+                <div id="menubar">
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="nutrition.html">Nutrition</a></li>
+                        <li><a href="exercise.html">Exercise</a></li>
+                        <li><a href="bio.html">Bio</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        <h2 id="nutr-title"> Nutrition </h2>
+        <div id="nutr-box">
+            <div id="nutr-box-header">
+                <div id="header-left">
+                    <button id="add-food-butn">Add Food</button>
+                </div>
+                <div id="day-div">
+                    <button id="prev-day" class="change-day">&lt;</button>
+                    <h1 id="day-label"> Day X </h1>
+                    <button id="next-day" class="change-day">&gt;</button>
+                </div>
+                <div id="header-right">
+                    <button id="toggle-view-butn"></button>
+                    <button id="exit-search">✖</button>
+                </div>
+            </div>
+            <div id="nutrition-container">
+
+                <div id="left-panel">
+                    <div class="search-header">
+                        <h2 id="food-search-label">Search for food</h2>
+                    </div>
+                    <div id="usda-search">
+                        <label for="food-input" class="visually-hidden">Search for food</label>
+                        <input type="text" id="food-input" placeholder="Search for food">
+                        <div id="autocomplete-list" class="autocomplete-items"></div>
+                    </div>
+                </div>
+              
+                <div id="right-panel">
+
+                    <div id="usda-info" style="display: none;">
+                        <h3>Selected Food</h3>
+                        <ul id="usda-details"></ul>
+                        <button id="add-usda-food">Add</button>
+                    </div>
+              
+                    <div id="custom-food" style="display: block;">
+                        <h3 id="food-manual-label">Enter food manually</h3>
+                        <form id="custom-form">
+                            <label for="food-name" class="visually-hidden">Name</label>
+                            <input id="food-name" class="macro-input" type="text" placeholder="Name" required>
+                            <label for="food-calories" class="visually-hidden">Calories</label>
+                            <input id="food-calories" class="macro-input" type="number" placeholder="Calories" required>
+                            <label for="food-carbs" class="visually-hidden">Carbs</label>
+                            <input id="food-carbs" class="macro-input" type="number" placeholder="Carbs">
+                            <label for="food-fat" class="visually-hidden">Fat</label>
+                            <input id="food-fat" class="macro-input" type="number" placeholder="Fat">
+                            <label for="food-protein" class="visually-hidden">Protein</label>
+                            <input id="food-protein" class="macro-input" type="number" placeholder="Protein">
+                            <label for="food-fiber" class="visually-hidden">Fiber</label>
+                            <input id="food-fiber" class="macro-input" type="number" placeholder="Fiber">
+                            <label for="food-sodium" class="visually-hidden">Sodium</label>
+                            <input id="food-sodium" class="macro-input" type="number" placeholder="Sodium">
+                            <label for="food-sugar" class="visually-hidden">Sugar</label>
+                            <input id="food-sugar" class="macro-input" type="number" placeholder="Sugar">
+                            <button type="submit">Add</button>
+                        </form>
+                    </div>
+
+                </div>
+              
+            </div>
+
+            <div id="macro-view-box">
+                <p> macro view </p>
+            </div>
+            <div id="food-view-box">
+                <p>food view</p>
+            </div>
+
+        </div>
+        
+        <script src="./scripts/header.js"></script>
+        <script src="./scripts/nutrition.js"></script>
+        
+        <footer class="foot">
+            <h1 id="resources-title" class="foot"> More Resources:</h1>
+            <ul class="foot">
+                <li class="foot"><a class="foot" href="https://www.myplate.gov/">MyPlate</a></li>
+            </ul>
+        </footer>
+
+    </body>
+
+</html>
