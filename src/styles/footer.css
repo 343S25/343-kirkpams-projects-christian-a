@@ -1,11 +1,10 @@
-footer{
-    /*background-color: white;*/
+footer {
     border-top: 2px solid #ccc;
     margin: 0;
     padding: 0;
-    height: 100px;
+    height: 125px;
     margin-top: 12vh;
-    background-color: #1E5078; /* A rich navy to match your header */
+    background-color: #1E5078;
     -webkit-font-smoothing: antialiased;
     
     
@@ -20,6 +19,7 @@ footer{
 
 .foot li {
     margin-left: 2vw;
+    margin-bottom: 1vh;
     color: white;
 }
 
@@ -29,5 +29,5 @@ footer{
 }
 
 .foot a:hover {
-    color: gray; /* or any accent that fits your color scheme */
+    color: gray;
 }
