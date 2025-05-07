@@ -1,4 +1,8 @@
 import { getTodayKey, formatDateKey, parseDateKey } from './dateUtils.js';
+import { calculateTDEE, calculateMacroGoals } from './calculations.js';
+import { redirectIfNotSetup } from './checkSetup.js';
+
+redirectIfNotSetup();
 
 const macroViewBox = document.getElementById("macro-view-box");
 const foodViewBox = document.getElementById("food-view-box");
@@ -21,7 +25,6 @@ const mealList = ["Breakfast", "Lunch", "Dinner", "Snacks"];
 
 let activeDay = getTodayKey();
 localStorage.setItem("current-day", activeDay);
-updateDayLabel();
 
 function getOrCreateDayData(dayKey) {
     let data = JSON.parse(localStorage.getItem(`day-${dayKey}`));
@@ -32,7 +35,26 @@ function getOrCreateDayData(dayKey) {
     return data;
 }
 
+let bioData = JSON.parse(localStorage.getItem("bioData"));
+if (!bioData) {
+    bioData = {};
+}
 
+updateDayLabel();
+
+document.addEventListener("DOMContentLoaded", () => {
+    const DARK_MODE_KEY = "darkMode";
+    function applyDarkMode(enable) {
+        if (enable) {
+            document.body.classList.add("dark-mode");
+        } else {
+            document.body.classList.remove("dark-mode");
+        }
+    }
+
+    const darkModeEnabled = localStorage.getItem(DARK_MODE_KEY) === "true";
+    applyDarkMode(darkModeEnabled);
+});
 
 toggleViewButn.addEventListener('click', () => {
     if (macroViewBox.style.display === "none")
@@ -85,8 +107,6 @@ function loadFoodsForDay(day) {
     let fiber = 0;
     let sodium = 0;
     let sugar = 0;
-
-    const foodViewBox = document.getElementById("food-view-box");
         
     mealList.forEach(meal => {
         let mealFoods = dayData[meal]
@@ -142,17 +162,39 @@ function loadFoodsForDay(day) {
             
     });
 
-        document.getElementById("cal-count").textContent = `${calories} / 2000`;
-        document.getElementById("carb-count").textContent = `${carbs}g / 200g`;
-        document.getElementById("fat-count").textContent = `${fat}g / 65g`;
-        document.getElementById("prot-count").textContent = `${protein}g / 200g`;
-        document.getElementById("fib-count").textContent = `${fiber}g / 30g`;
-        document.getElementById("sod-count").textContent = `${sodium}mg / 3000mg`;
-        document.getElementById("sug-count").textContent = `${sugar}g / 100g`;
-        document.getElementById("water-count").textContent = `${dayData.water}ml / 3000ml`;
+    const calorieGoal = calculateTDEE({
+        sex: bioData.sex,
+        weight: bioData.weight,
+        height: bioData.height,
+        age: parseInt(bioData.age),
+        activity: bioData["activity-lvl"]
+    }, bioData.goal);
+
+    const macroGoals = calculateMacroGoals(calorieGoal, bioData["macro-split"]);
+    const waterGoal = parseInt(bioData["water-goal"]);
+
+    let fiberGoal = 0;
+    const sodiumGoal = 2300;
+    let sugarGoal = 0;
+    if (bioData.sex.toLowerCase() === "male") {
+        fiberGoal = 38;
+        sugarGoal = 36;
+    } else {
+        fiberGoal = 25;
+        sugarGoal = 25;
+    }
+
+    document.getElementById("cal-count").textContent = `${calories} / ${calorieGoal}`;
+    document.getElementById("carb-count").textContent = `${carbs}g / ${macroGoals.carbs}g`;
+    document.getElementById("fat-count").textContent = `${fat}g / ${macroGoals.fat}g`;
+    document.getElementById("prot-count").textContent = `${protein}g / ${macroGoals.protein}g`;
+    document.getElementById("fib-count").textContent = `${fiber}g / ${fiberGoal}g`;
+    document.getElementById("sod-count").textContent = `${sodium}mg / ${sodiumGoal}mg`;
+    document.getElementById("sug-count").textContent = `${sugar}g / ${sugarGoal}g`;
+    document.getElementById("water-count").textContent = `${dayData.water}ml / ${waterGoal}ml`;
 
         
-    }
+}
 
 
 document.getElementById("food-input").addEventListener('keydown', async (event) => {
@@ -321,18 +363,18 @@ customForm.addEventListener("submit", (e) => {
         alert("Please select a valid meal type (Breakfast, Lunch, Dinner, Snacks)");
         return;
     }
-    const quantity = parseFloat(formData.get("food-quantity")) || 1.0;
+    const quantity = Math.max(0, parseFloat(formData.get("food-quantity")) || 1.0);
 
     const foodData = {
         name: formData.get("food-name"),
         quantity: quantity,
-        calories: Math.round((Number(formData.get("food-calories")) || 0) * quantity),
-        carbs: Math.round((Number(formData.get("food-carbs")) || 0) * quantity),
-        fat: Math.round((Number(formData.get("food-fat")) || 0) * quantity),
-        protein: Math.round((Number(formData.get("food-protein")) || 0) * quantity),
-        fiber: Math.round((Number(formData.get("food-fiber")) || 0) * quantity),
-        sodium: Math.round((Number(formData.get("food-sodium")) || 0) * quantity),
-        sugar: Math.round((Number(formData.get("food-sugar")) || 0) * quantity)
+        calories: Math.round(Math.max(0, Number(formData.get("food-calories"))) * quantity),
+        carbs: Math.round(Math.max(0, Number(formData.get("food-carbs"))) * quantity),
+        fat: Math.round(Math.max(0, Number(formData.get("food-fat"))) * quantity),
+        protein: Math.round(Math.max(0, Number(formData.get("food-protein"))) * quantity),
+        fiber: Math.round(Math.max(0, Number(formData.get("food-fiber"))) * quantity),
+        sodium: Math.round(Math.max(0, Number(formData.get("food-sodium"))) * quantity),
+        sugar: Math.round(Math.max(0, Number(formData.get("food-sugar"))) * quantity)
     };
 
     const key = `day-${activeDay}`;
@@ -342,17 +384,27 @@ customForm.addEventListener("submit", (e) => {
     customForm.reset();
     document.getElementById("food-input").value = "";
     loadFoodsForDay(activeDay);
+    window.location.href = './nutrition.html';
 });
+
+let addingWater = false;
 
 addWaterButn.addEventListener('click', () => {
     const waterInput = document.getElementById("water-quantity");
-    waterInput.style.display = "flex";
+    if (addingWater) {
+        waterInput.style.display = "none";
+        document.getElementById("water-input").value = "";
+    } else {
+        waterInput.style.display = "flex";
+    }
+
+    addingWater = !addingWater;
 });
 
 waterForm.addEventListener('submit', (e) => {
     e.preventDefault();
     const inputVal = Number(document.getElementById("water-input").value);
-    if (isNaN(inputVal)) {
+    if (isNaN(inputVal) || inputVal < 0) {
         document.getElementById("water-input").value = "";
         document.getElementById("water-quantity").style.display = "none";
         return;
@@ -372,6 +424,3 @@ waterForm.addEventListener('submit', (e) => {
     document.getElementById("water-input").value = "";
     document.getElementById("water-quantity").style.display = "none";
 });
-
-
-

@@ -1,19 +1,44 @@
 import { getTodayKey, parseDateKey } from './dateUtils.js';
+import { calculateTDEE, calculateMacroGoals } from './calculations.js';
+import { redirectIfNotSetup } from './checkSetup.js';
+
+redirectIfNotSetup();
 
 const activeDay = getTodayKey();
 localStorage.setItem("current-day", activeDay);
 
 function calculatePercentages(current, target) {
-    return Math.min(100, Math.round((current / target) * 100));
+    return Math.min(999, Math.round((current / target) * 100));
 }
+
+
 
 
 document.addEventListener("DOMContentLoaded", () => {
     const todayKey = getTodayKey();
     let dayData = JSON.parse(localStorage.getItem(`day-${todayKey}`));
 
+    const DARK_MODE_KEY = "darkMode";
+    function applyDarkMode(enable) {
+        if (enable) {
+            document.body.classList.add("dark-mode");
+        } else {
+            document.body.classList.remove("dark-mode");
+        }
+    }
+
+    const darkModeEnabled = localStorage.getItem(DARK_MODE_KEY) === "true";
+    applyDarkMode(darkModeEnabled);
+
+    const nameHeader = document.getElementById("name");
+    const bioData = JSON.parse(localStorage.getItem("bioData"));
+    if (bioData && bioData.name) {
+        nameHeader.textContent = bioData.name;
+    }
+
+
     if (!dayData) {
-        dayData = { Breakfast: [], Lunch: [], Dinner: [], Snacks: [] };
+        dayData = { Breakfast: [], Lunch: [], Dinner: [], Snacks: [], water: 0};
     }
     
     let calories = 0;
@@ -38,23 +63,65 @@ document.addEventListener("DOMContentLoaded", () => {
             fiber += food.fiber;
             sodium += food.sodium;
             sugar += food.sugar;
-        });
-        
-            
+        });     
     });
-        // Get Rid of Hardcoded goals
-        calories = calculatePercentages(calories, 2000);
-        carbs = calculatePercentages(carbs, 200);
-        fat = calculatePercentages(fat, 65);
-        protein = calculatePercentages(protein, 200);
-        sugar = calculatePercentages(sugar, 100);
-        water = calculatePercentages(dayData.water, 3000);
 
-        document.getElementById("cal").textContent = `${calories}%`;
-        document.getElementById("carb").textContent = `${carbs}%`;
-        document.getElementById("fat").textContent = `${fat}%`;
-        document.getElementById("prot").textContent = `${protein}%`;
-        document.getElementById("water").textContent = `${water}%`;
+    const calorieGoal = calculateTDEE({
+        sex: bioData.sex,
+        weight: bioData.weight,
+        height: bioData.height,
+        age: parseInt(bioData.age),
+        activity: bioData["activity-lvl"]
+    }, bioData.goal);
+
+    const macroGoals = calculateMacroGoals(calorieGoal, bioData["macro-split"]);
+    const waterGoal = parseInt(bioData["water-goal"]);
+
+    calories = calculatePercentages(calories, calorieGoal);
+    carbs = calculatePercentages(carbs, macroGoals.carbs);
+    fat = calculatePercentages(fat, macroGoals.fat);
+    protein = calculatePercentages(protein, macroGoals.protein);
+    water = calculatePercentages(dayData.water, waterGoal);
+
+    document.getElementById("cal").textContent = `${calories}%`;
+    document.getElementById("carb").textContent = `${carbs}%`;
+    document.getElementById("fat").textContent = `${fat}%`;
+    document.getElementById("prot").textContent = `${protein}%`;
+    document.getElementById("water").textContent = `${water}%`;
+
+
+    const goalsContainer = document.querySelector(".goals-div");
+
+    if (bioData && Array.isArray(bioData.customGoals)) {
+        goalsContainer.innerHTML = "";
+
+        bioData.customGoals.forEach((goal, index) => {
+            const label = document.createElement("label");
+            label.setAttribute("for", `goal-${index}`);
+
+            const checkbox = document.createElement("input");
+            checkbox.type = "checkbox";
+            checkbox.id = `goal-${index}`;
+            checkbox.className = "goals";
+            checkbox.checked = goal.checked || false;
+
+            label.addEventListener('click', (e) => {
+                if (e.target !== checkbox) {
+                    e.preventDefault();
+                }
+            });
+
+            checkbox.addEventListener("change", () => {
+                goal.checked = checkbox.checked;
+                localStorage.setItem("bioData", JSON.stringify(bioData));
+            });
+
+            const goalText = document.createTextNode(` ${goal.text}`);
+            label.appendChild(checkbox);
+            label.appendChild(goalText);
+            goalsContainer.appendChild(label);
+        });
+    }
 });
 
 

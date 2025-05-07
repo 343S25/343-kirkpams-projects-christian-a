@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <title> Exercise </title>
+        <link rel="stylesheet" href="../styles/setup.css">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+    </head>
+
+    <body>
+        <main>
+            <h1>Welcome! Set Up Your Bio</h1>
+            <form id="setup-form">
+                <label>
+                    <h2>Name:</h2>
+                    <input type="text" name="name" required>
+                </label>
+        
+                <label>
+                    <h2>Age:</h2>
+                    <input type="number" name="age" min="0" required>
+                </label>
+        
+                <label>
+                    <h2>Sex:</h2>
+                    <select name="sex" required>
+                        <option value="">Select...</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                    </select>
+                </label>
+        
+                <label>
+                    <h2>Height:</h2>
+                    <div class="height-inputs">
+                        <input type="number" name="heightFeet" min="0" required> ft
+                        <input type="number" name="heightInches" min="0" max="11" required> in
+                    </div>
+                </label>
+        
+                <label>
+                    <h2>Weight (lbs):</h2>
+                    <input type="number" name="weight" min="0" required />
+                </label>
+        
+                <label>
+                    <h2>Weight Goal:</h2>
+                    <select name="goal" required>
+                        <option value="Maintain Weight">Maintain Weight</option>
+                        <option value="Lose 0.5 lbs/week">Lose 0.5 lbs/week</option>
+                        <option value="Lose 1 lbs/week">Lose 1 lbs/week</option>
+                        <option value="Lose 1.5 lbs/week">Lose 1.5 lbs/week</option>
+                        <option value="Lose 2 lbs/week">Lose 2 lbs/week</option>
+                        <option value="Gain 0.5 lbs/week">Gain 0.5 lbs/week</option>
+                        <option value="Gain 1 lbs/week">Gain 1 lbs/week</option>
+                        <option value="Gain 1.5 lbs/week">Gain 1.5 lbs/week</option>
+                        <option value="Gain 2 lbs/week">Gain 2 lbs/week</option>
+                    </select>
+                </label>
+        
+                <label>
+                    <h2>Water Goal (ml):</h2>
+                    <input type="number" name="waterGoal" min="0" required>
+                </label>
+        
+                <label>
+                    <h2>Diet Preference:</h2>
+                    <select name="macroSplit" required>
+                        <option value="Balanced">Balanced</option>
+                        <option value="High Protein">High Protein</option>
+                        <option value="High Carb">High Carb</option>
+                        <option value="Low Carb">Low Carb</option>
+                    </select>
+                </label>
+        
+                <label>
+                    <h2>Activity Level:</h2>
+                    <select name="activityLvl" required>
+                        <option value="Sedentary">Sedentary</option>
+                        <option value="Light">Light</option>
+                        <option value="Moderate">Moderate</option>
+                        <option value="Active">Active</option>
+                        <option value="Very Active">Very Active</option>
+                    </select>
+                </label>
+
+                <div id="checkboxes">
+                    <label id="theme-tag">Theme:</label>
+                    <div class="themes">
+                        <label>Dark Mode</label>
+                        <input type="radio" name="theme" value="dark">
+                    </div>
+                    <div class="themes">
+                        <label>Light Mode</label>
+                        <input type="radio" name="theme" value="light" checked>
+                    </div>
+                </div>
+
+        
+                <button type="submit">Save Bio</button>
+            </form>
+        </main>
+
+        <script src="../scripts/setup.js"></script>
+    </body>
+    
+
+
+</html>

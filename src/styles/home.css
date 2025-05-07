@@ -201,6 +201,53 @@ body {
     color: #283241;
 }
 
+/* Dark Mode */
+
+body.dark-mode {
+    background-color: #121212;
+}
+
+body.dark-mode .col {
+    background-color: #1e1e1e;
+    box-shadow: none;
+}
+
+body.dark-mode .top-row h2:first-child,
+body.dark-mode .col h3,
+body.dark-mode #split-label,
+body.dark-mode .col a {
+    color: #90caf9;
+}
+
+body.dark-mode .top-row h2,
+body.dark-mode .top-row h3,
+body.dark-mode #split-day,
+body.dark-mode .label,
+body.dark-mode .goals-div label {
+    color: #e0e0e0;
+}
+
+body.dark-mode .nutrient {
+    background-color: #2c2c2c;
+    color: #90caf9;
+    box-shadow: none;
+}
+
+body.dark-mode .goals-div input[type="checkbox"] {
+    background-color: #2c2c2c;
+    box-shadow: none;
+    accent-color: #90caf9;
+    
+}
+
+body.dark-mode .goals-div input[type="checkbox"]::after {
+    color: #66bb6a;
+}
+
+.goals-div label {
+    cursor: default;
+}
+
 /* Small screen media query */
 @media (max-width: 1200px) {
 
@@ -260,6 +307,19 @@ body {
     .goals-div label {
         font-size: 18px;
         padding: 1vh 1vw;
+        display: flex;
+        align-items: center;
+        font-size: 18px;
+        padding: 1vh 1vw;
+        white-space: nowrap;
+    }
+
+    .goals-div {
+        display: grid;
+        grid-template-rows: repeat(3, auto);
+        grid-auto-flow: column;
+        gap: 2vh 3vw;
+        justify-content: center;
     }
 
     #col3 {

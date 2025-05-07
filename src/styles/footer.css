@@ -31,3 +31,26 @@ footer {
 .foot a:hover {
     color: gray;
 }
+
+/* Dark Mode */
+
+body.dark-mode footer {
+    background-color: #0D2C45;
+    border-top: 2px solid #444;
+}
+
+body.dark-mode #resources-title {
+    color: #f0f0f0;
+}
+
+body.dark-mode .foot li {
+    color: #f0f0f0;
+}
+
+body.dark-mode .foot a {
+    color: #a8d1ff;
+}
+
+body.dark-mode .foot a:hover {
+    color: #ccc;
+}

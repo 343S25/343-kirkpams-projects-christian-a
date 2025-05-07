@@ -7,6 +7,7 @@
         <link rel="stylesheet" href="../styles/header.css">
         <link rel="stylesheet" href="../styles/nutrition.css">
         <link rel="stylesheet" href="../styles/footer.css">
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
     </head>
 
     <body>
@@ -73,11 +74,11 @@
                     <div id="custom-food" style="display: block;">
                         <h3 id="food-manual-label">Enter food manually</h3>
                         <form id="custom-form">
-                            <label for="food-name" class="visually-hidden">Name</label>
+                            <label for="food-name" >Name</label>
                             <input id="food-name" name="food-name" class="macro-input" type="text" placeholder="Name" required>
-                            <label for="food-quantity" class="visually-hidden">Quantity</label>
-                            <input id="food-quantity" name="food-quantity" class="macro-input" type="text" placeholder="Quantity" required>
-                            <label for="meal-input" class="visually-hidden">Meal</label>
+                            <label for="food-quantity" >Quantity</label>
+                            <input id="food-quantity" name="food-quantity" class="macro-input" type="text" placeholder="Quantity" min="0" required>
+                            <label for="meal-input" >Meal</label>
                             <input list="meal-options" id="meal-input" name="meal-input" class="macro-input" placeholder="Meal">
                             <datalist id="meal-options">
                                 <option value="Breakfast">
@@ -85,20 +86,20 @@
                                 <option value="Dinner">
                                 <option value="Snacks">
                             </datalist>
-                            <label for="food-calories" class="visually-hidden">Calories</label>
-                            <input id="food-calories" name="food-calories" class="macro-input" type="number" placeholder="Calories" required>
-                            <label for="food-carbs" class="visually-hidden">Carbs</label>
-                            <input id="food-carbs" name="food-carbs" class="macro-input" type="number" placeholder="Carbs">
-                            <label for="food-fat" class="visually-hidden">Fat</label>
-                            <input id="food-fat" name="food-fat" class="macro-input" type="number" placeholder="Fat">
-                            <label for="food-protein" class="visually-hidden">Protein</label>
-                            <input id="food-protein" name="food-protein" class="macro-input" type="number" placeholder="Protein">
-                            <label for="food-fiber" class="visually-hidden">Fiber</label>
-                            <input id="food-fiber" name="food-fiber" class="macro-input" type="number" placeholder="Fiber">
-                            <label for="food-sodium" class="visually-hidden">Sodium</label>
-                            <input id="food-sodium" name="food-sodium" class="macro-input" type="number" placeholder="Sodium">
-                            <label for="food-sugar" class="visually-hidden">Sugar</label>
-                            <input id="food-sugar" name="food-sugar" class="macro-input" type="number" placeholder="Sugar">
+                            <label for="food-calories" >Calories</label>
+                            <input id="food-calories" name="food-calories" class="macro-input" type="number" placeholder="Calories" min="0" required>
+                            <label for="food-carbs" >Carbs</label>
+                            <input id="food-carbs" name="food-carbs" class="macro-input" type="number" placeholder="Carbs" min="0">
+                            <label for="food-fat" >Fat</label>
+                            <input id="food-fat" name="food-fat" class="macro-input" type="number" placeholder="Fat" min="0">
+                            <label for="food-protein" >Protein</label>
+                            <input id="food-protein" name="food-protein" class="macro-input" type="number" placeholder="Protein" min="0">
+                            <label for="food-fiber" >Fiber</label>
+                            <input id="food-fiber" name="food-fiber" class="macro-input" type="number" placeholder="Fiber" min="0">
+                            <label for="food-sodium" >Sodium</label>
+                            <input id="food-sodium" name="food-sodium" class="macro-input" type="number" placeholder="Sodium" min="0">
+                            <label for="food-sugar" >Sugar</label>
+                            <input id="food-sugar" name="food-sugar" class="macro-input" type="number" placeholder="Sugar" min="0">
                             <button type="submit">Add</button>
                         </form>
                     </div>

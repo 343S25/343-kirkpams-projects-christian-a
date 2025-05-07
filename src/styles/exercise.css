@@ -23,3 +23,19 @@ body {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
     margin: 0 4vw;
 }
+
+/* Dark Mode */
+
+body.dark-mode {
+    background-color: #121212;
+}
+
+body.dark-mode #exercises-title {
+    color: #90caf9;
+    text-shadow: none;
+}
+
+body.dark-mode #exercise-box {
+    background-color: #1e1e1e;
+    box-shadow: none;
+}
