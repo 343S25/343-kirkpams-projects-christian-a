@@ -7,6 +7,7 @@ const changeButn = document.getElementById("change-mode-butn");
 const bioBox = document.getElementById("bio-box");
 let isEditing = false;
 let originalGoals = [];
+let originalBioData = null;
 
 const storageKey = "bioData";
 
@@ -19,6 +20,8 @@ if (savedData) {
                 span.textContent = `${value} ml`;
             } else if (key === "weight") {
                 span.textContent = `${value} lbs`;
+            } else if (key === "workout-freq") {
+                span.textContent = `${value}`;
             } else {
                 span.textContent = value;
             }
@@ -30,13 +33,13 @@ if (savedData) {
 
 const DARK_MODE_KEY = "darkMode";
 function applyDarkMode(enable) {
-    if (enable) {
-        document.body.classList.add("dark-mode");
-        changeButn.textContent = "Light Mode";
-    } else {
-        document.body.classList.remove("dark-mode");
-        changeButn.textContent = "Dark Mode";
-    }
+        if (enable) {
+            document.body.classList.add("dark-mode");
+            changeButn.textContent = "Light Mode";
+        } else {
+            document.body.classList.remove("dark-mode");
+            changeButn.textContent = "Dark Mode";
+        }
 }
 
 function buildGoals(goals = []) {
@@ -147,6 +150,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function enterEditMode() {
         isEditing = true;
+        Object.assign(savedData, JSON.parse(localStorage.getItem(storageKey)));
+        originalBioData = JSON.parse(JSON.stringify(savedData));
         originalGoals = JSON.parse(JSON.stringify(savedData.customGoals));
         editButn.textContent = "Exit Edit";
         
@@ -173,18 +178,18 @@ document.addEventListener("DOMContentLoaded", () => {
                 const container = document.createElement("span");
                 const feetInput = document.createElement("input");
                 feetInput.type = "number";
+                feetInput.classList.add("feet-input");
                 feetInput.min = "0";
                 feetInput.value = feet;
                 feetInput.setAttribute("data-key", "height-feet");
-                feetInput.style.width = "4.45vw";
 
                 const inchesInput = document.createElement("input");
                 inchesInput.type = "number";
+                inchesInput.classList.add("inches-input");
                 inchesInput.min = "0";
                 inchesInput.max = "11";
                 inchesInput.value = inches;
                 inchesInput.setAttribute("data-key", "height-inches");
-                inchesInput.style.width = "5vw";
 
                 container.append("ft: ", feetInput, " in: ", inchesInput);
                 span.replaceWith(container);
@@ -192,7 +197,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 const currentValue = span.textContent.trim();
                 const select = createSelect(key, currentValue, ["Male", "Female"]);
                 span.replaceWith(select);
-            } else if (["goal", "water-goal", "macro-split", "activity-lvl"].includes(key)) {
+            } else if (["goal", "water-goal", "macro-split", "activity-lvl", "workout-freq"].includes(key)) {
                 const currentValue = span.textContent.trim();
                 let select;
             
@@ -208,8 +213,9 @@ document.addEventListener("DOMContentLoaded", () => {
                     select = createSelect(key, currentValue, ["Balanced", "High Protein", "High Carb", "Low Carb"]);
                 } else if (key === "activity-lvl") {
                     select = createSelect(key, currentValue, ["Sedentary", "Light", "Moderate", "Active", "Very Active"]);
+                } else if (key === "workout-freq") {
+                    select = createSelect(key, currentValue, ["1 Day", "2 Days", "3 Days", "4 Days", "5 Days", "6 Days", "7 Days"]);
                 }
-            
                 span.replaceWith(input || select);
             } else {
                 input = document.createElement("input");
@@ -253,6 +259,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 } else if (["goal", "macro-split"].includes(key)) {
                     dataToSave[key] = value;
                     span.textContent = value;
+                } else if (key === "workout-freq") {
+                    dataToSave[key] = value;
+                    span.textContent = value;
                 } else {
                     dataToSave[key] = value;
                     span.textContent = ` ${value}`;
@@ -289,7 +298,9 @@ document.addEventListener("DOMContentLoaded", () => {
             buildGoals(savedData.customGoals);
 
         } else {
-            savedData.customGoals = JSON.parse(JSON.stringify(originalGoals));const goalHint = document.getElementById("goal-hint");
+            Object.assign(savedData, originalBioData);
+            savedData.customGoals = JSON.parse(JSON.stringify(originalGoals));
+            const goalHint = document.getElementById("goal-hint");
             if (goalHint) {
                 goalHint.style.display = savedData.customGoals.length === 0 ? "inline" : "none";
             }
@@ -310,6 +321,9 @@ document.addEventListener("DOMContentLoaded", () => {
                     input.parentElement.replaceWith(heightSpan);
                 } else if (key === "water-goal") {
                     span.textContent = ` ${savedData?.[key] || input.value} ml`;
+                    input.parentElement.replaceChild(span, input);
+                } else if (key === "workout-freq") {
+                    span.textContent = ` ${savedData?.[key] || input.value}`;
                     input.parentElement.replaceChild(span, input);
                 } else {
                     span.textContent = ` ${savedData?.[key] || input.value}`;
@@ -332,7 +346,7 @@ function createSelect(key, currentValue, options) {
         const option = document.createElement("option");
         option.value = optionVal;
         option.textContent = optionVal;
-        if (optionVal === currentValue.trim()) {
+        if (optionVal.toLowerCase().trim() === currentValue.toLowerCase().trim()) {
             option.selected = true;
         }
         select.appendChild(option);
@@ -340,3 +354,44 @@ function createSelect(key, currentValue, options) {
 
     return select;
 }
+
+const deleteProfileBtn = document.getElementById("delete-profile");
+deleteProfileBtn.addEventListener('click', () => {
+    const confirmDeletion = confirm("Are you sure you want to delete your profile? (This can't be undone!)");
+    if (confirmDeletion) {
+        localStorage.clear();
+        window.location.href = "./setup.html";
+    }
+
+});
+
+const exportBtn = document.getElementById("export-profile");
+
+exportBtn.addEventListener("click", () => {
+    let filename = "profile.json";
+    const bio = JSON.parse(localStorage.getItem("bioData"));
+    if (bio && bio.name) {
+        const parts = bio.name.split(" ");
+        filename = parts.join("_").toLowerCase() + "_profile.json";
+    }
+
+    const allData = {};
+    for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        allData[key] = localStorage.getItem(key);
+    }
+
+    const blob = new Blob([JSON.stringify(allData, null, 2)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+
+    const downloadLink = document.createElement("a");
+    downloadLink.href = url;
+    downloadLink.download = filename;
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+    document.body.removeChild(downloadLink);
+    URL.revokeObjectURL(url);
+});
+
+
+

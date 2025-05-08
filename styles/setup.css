@@ -1,7 +1,7 @@
 body {
     margin: 0;
     font-family: Arial, Helvetica, sans-serif;
-    background-color: #f0f6fc;
+    background-color: #dbdbdb;
     padding: 2rem;
 }
   
@@ -19,6 +19,15 @@ h1 {
     color: #1e5078;
 }
   
+form > label {
+    font-size: 0.95rem;
+    font-weight: bold;
+    color: #1e5078;
+    margin-top: 1.2rem;
+    padding-bottom: 1vh;
+    margin-bottom: 0;
+}
+  
 form {
     display: flex;
     flex-direction: column;
@@ -32,20 +41,43 @@ label {
     color: #333;
     padding-bottom: 1.7vh;
 }
-
-label h2 {
-    margin: 0.5vh 0;
-    font-size: 0.8vw;
-}
   
 input, select {
-    padding: 0.5rem;
+    padding: 0.6rem;
     border-radius: 6px;
     border: 1px solid #ccc;
+    font-size: 1rem;
+    box-sizing: border-box;
 }
 
+.height-inputs {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    margin: 1rem 0;
+}
+  
+.height-inputs div {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+  
 .height-inputs input {
-    width: 42.65%;
+    width: 100%;
+    padding: 0.6rem;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+}
+
+.height-inputs label {
+    font-weight: bold;
+    font-size: 0.95rem;
+    margin-top: 1vh;
+    padding-bottom: 0;
+    color: #1e5078;
 }
   
 button {
@@ -58,7 +90,8 @@ button {
     font-weight: bold;
 }
   
-button:hover {
+button:hover,
+#import-btn:hover {
     background-color: #174066;
 }
 
@@ -66,6 +99,7 @@ button:hover {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
+    margin-top: 2vh;
 }
 
 #theme-tag {
@@ -80,6 +114,33 @@ button:hover {
 #checkboxes input {
     position: relative;
     top: -10px;
+}
+
+#import-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+}
+
+#import-div h2 {
+    font-size: 1vw;
+    color: #333;
+    margin-right: 20px;
+}
+
+#import-btn {
+    padding: 0.75rem;
+    width: 4vw;
+    height: 4vh;
+    background-color: #1e5078;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
 }
 
 /* Dark Mode */
@@ -98,7 +159,8 @@ body.dark-mode h1 {
     color: #90caf9;
 }
 
-body.dark-mode label {
+body.dark-mode label,
+body.dark-mode #import-div h2 {
     color: #e0e0e0;
 }
 
@@ -109,11 +171,30 @@ body.dark-mode select {
     border: 1px solid #555;
 }
 
-body.dark-mode button {
+body.dark-mode button,
+body.dark-mode #import-btn {
     background-color: #333;
     color: #ffffff;
 }
 
-body.dark-mode button:hover {
+body.dark-mode button:hover,
+body.dark-mode #import-btn:hover {
     background-color: #444;
+}
+
+/*smaller screen media query */
+@media (max-width: 1200px) {
+
+    .height-inputs input {
+        width: 100%;
+    }
+
+    #import-btn {
+        width: 7vw;
+    }
+
+    #import-div h2 {
+        font-size: 1.5vw;
+    }
+
 }

@@ -1,3 +1,5 @@
+import { parseDateKey } from "./dateUtils.js";
+
 export function calculateTDEE({ sex, weight, height, age, activity }, goal) {
     const LBTOKG = 0.4536;
     const kgWeight = parseFloat(weight) * LBTOKG;
@@ -59,4 +61,15 @@ export function calculateMacroGoals(calories, split) {
         fat: Math.round((calories * ratios.fat) / 9),
         protein: Math.round((calories * ratios.protein) / 4)
     };
+}
+
+export function calculatePercentages(current, target) {
+    return Math.min(999, Math.round((current / target) * 100));
+}
+
+export function getCycleDay(splitLength, startDateStr, dayStr) {
+    const startDate = parseDateKey(startDateStr);
+    const currentDate = parseDateKey(dayStr);
+    const diffDays = Math.floor((currentDate - startDate) / (1000 * 60 * 60 * 24));
+    return ((diffDays % 7) + 7) % 7;
 }

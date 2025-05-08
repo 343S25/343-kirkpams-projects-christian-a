@@ -44,7 +44,7 @@
                     <button id="next-day" class="change-day">&gt;</button>
                 </div>
                 <div id="header-right">
-                    <button id="toggle-view-butn"></button>
+                    <button id="toggle-view-butn">Toggle View</button>
                     <button id="exit-search">✖</button>
                 </div>
             </div>
@@ -77,7 +77,7 @@
                             <label for="food-name" >Name</label>
                             <input id="food-name" name="food-name" class="macro-input" type="text" placeholder="Name" required>
                             <label for="food-quantity" >Quantity</label>
-                            <input id="food-quantity" name="food-quantity" class="macro-input" type="text" placeholder="Quantity" min="0" required>
+                            <input id="food-quantity" name="food-quantity" class="macro-input" type="number" placeholder="Quantity" min="0" value="1.0" required>
                             <label for="meal-input" >Meal</label>
                             <input list="meal-options" id="meal-input" name="meal-input" class="macro-input" placeholder="Meal">
                             <datalist id="meal-options">

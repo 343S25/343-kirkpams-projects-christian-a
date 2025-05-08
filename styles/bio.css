@@ -63,7 +63,7 @@ body {
 
 #bio-header {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
     flex-direction: row;
     align-items: flex-end;
 }
@@ -86,15 +86,6 @@ body {
     border: none;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
     cursor: pointer;
-}
-
-#edit-profile-butn {
-    margin-left: 10vw;
-
-}
-
-#change-mode-butn {
-    margin-right: 10vw;
 }
 
 button:active {
@@ -170,29 +161,37 @@ input {
     cursor: pointer;
 }
 
-input{
+input {
     width: 12vw;
     margin-right: 0;
     padding-right: 0;
 }
 
 select {
-    width: 12.35vw;
+    width: 12.1vw;
     margin-right: 0;
     padding-right: 0; 
 }
 
 #goal-hint {
     font-size: 0.75vw;
-    color: rgba(147, 147, 147, 0.8);
+    color: rgba(0, 0, 0, 1);
 }
+
+.feet-input {
+    width: 5.25vw;
+}
+
+.inches-input {
+    width: 5.25vw;
+}
+
 
 
 
 /* Dark Mode */
 
 body.dark-mode #goal-hint {
-    font-size: 0.75vw;
     color: #7e7e7e;
 }
 
@@ -249,4 +248,90 @@ body.dark-mode select {
     background-color: #2a2a2a;
     color: #ffffff;
     border: 1px solid #444;
+}
+
+/*smaller screen media query */
+@media (max-width: 1200px) {
+    #bio-box {
+        height: auto;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .bio-section {
+        width: 80%;
+        margin-bottom: 2vh;
+    }
+
+    .bio-section ul {
+        width: 100%;
+    }
+
+    .bio-section li span,
+    .bio-section li strong span {
+        font-size: 2vw;
+        line-height: 1.5;
+    }
+
+    #goals-list label {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: 1vh;
+    }
+
+    #goals-list span {
+        font-size: 1rem;
+    }
+
+    #goal-hint {
+        font-size: 2vw;
+    }
+
+    .delete-goal {
+        width: 3vw;
+        height: 3vh;
+        margin-top: 1vh;
+    }
+
+    #add-goal {
+        font-size: 1rem;
+        width: auto;
+        padding: 0.5rem 1rem;
+    }
+
+    input{
+        width: 40.6vw;
+    }
+    
+    select {
+        width: 41vw;
+    }
+
+    .feet-input {
+        width: 18.2vw;
+    }
+
+    .inches-input {
+        width: 18.2vw;
+    }
+
+    .bio-butn {
+        width: 10vw;
+        height: 5vh;
+        border-radius: 8px;
+        font-size: 1.5vw;
+    }
+
+    #edit-profile-butn {
+        margin-left: 15vw;
+    
+    }
+    
+    #change-mode-butn {
+        margin-right: 15vw;
+    }
+
 }

@@ -1,18 +1,11 @@
 import { getTodayKey, parseDateKey } from './dateUtils.js';
-import { calculateTDEE, calculateMacroGoals } from './calculations.js';
+import { calculateTDEE, calculateMacroGoals, calculatePercentages, getCycleDay } from './calculations.js';
 import { redirectIfNotSetup } from './checkSetup.js';
 
 redirectIfNotSetup();
 
 const activeDay = getTodayKey();
 localStorage.setItem("current-day", activeDay);
-
-function calculatePercentages(current, target) {
-    return Math.min(999, Math.round((current / target) * 100));
-}
-
-
-
 
 document.addEventListener("DOMContentLoaded", () => {
     const todayKey = getTodayKey();
@@ -27,10 +20,11 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    const darkModeEnabled = localStorage.getItem(DARK_MODE_KEY) === "true";
-    applyDarkMode(darkModeEnabled);
+    applyDarkMode(localStorage.getItem(DARK_MODE_KEY) === "true");
 
     const nameHeader = document.getElementById("name");
+    const splitDayText = document.getElementById("split-day");
+
     const bioData = JSON.parse(localStorage.getItem("bioData"));
     if (bioData && bioData.name) {
         nameHeader.textContent = bioData.name;
@@ -121,7 +115,39 @@ document.addEventListener("DOMContentLoaded", () => {
             label.appendChild(goalText);
             goalsContainer.appendChild(label);
         });
+
+        if (goalsContainer.innerHTML === "") {
+            const p = document.createElement("p");
+            p.textContent = "You have no goals set!"
+            goalsContainer.appendChild(p);
+        }
     }
+
+    const START_DATE_KEY = "workout-start-date";
+    if (!localStorage.getItem(START_DATE_KEY)) {
+        localStorage.setItem(START_DATE_KEY, todayKey);
+    }
+
+    const splitDays = parseInt(bioData["workout-freq"]);
+
+    const workoutSplits = {
+        1: ["Full Body Day"],
+        2: ["Upper Body Day", "Lower Body + Core Day"],
+        3: ["Push Day", "Pull Day", "Leg Day"],
+        4: ["Upper Strength", "Lower Strength", "Cardio + Core", "Legs Hypertrophy"],
+        5: ["Chest + Triceps", "Back + Biceps", "Legs", "Shoulders + Abs", "Cardio + Mobility"],
+        6: ["Push", "Pull", "Legs", "Push 2", "Pull 2", "Core + Cardio"],
+        7: ["Push A", "Pull A", "Legs A", "Active Recovery", "Push B", "Pull B", "Legs B"]
+    };
+    
+    const cycleDay = getCycleDay(7, localStorage.getItem(START_DATE_KEY), todayKey);
+    const splitList = workoutSplits[splitDays];
+    let splitName = "Rest Day";
+    if (splitList && cycleDay < splitList.length) {
+        splitName = splitList[cycleDay];
+    }
+
+    splitDayText.textContent = splitName;
 });
 
 

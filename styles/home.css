@@ -155,10 +155,11 @@ body {
 #split-day {
     padding-top: 0;
     color: #283241;
-    font-size: 2vw;
+    font-size: 2.5vw;
     font-family: Arial, Helvetica, sans-serif;
     font-weight: normal;
     align-items: center;
+    margin-top: 0;
 }
 
 .goals-div input[type="checkbox"] {
@@ -201,7 +202,19 @@ body {
     color: #283241;
 }
 
+p {
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-size: 2vw;
+    color: #283241;
+    text-align: center;
+    margin-top: 20vh;
+}
+
 /* Dark Mode */
+
+body.dark-mode p {
+    color: #90caf9; 
+}
 
 body.dark-mode {
     background-color: #121212;
@@ -329,17 +342,24 @@ body.dark-mode .goals-div input[type="checkbox"]::after {
     }
 
     #split-label{
-        font-size: 38px;
+        font-size: 5vw;
         padding-top: 0;
+        margin-top: 2vh;
+        margin-bottom: 2vh;
     }
 
     #split-day {
-        font-size: 22px;
+        font-size: 4vw;
     }
 
     nav a {
         font-size: 16px;
         padding: 1vh 2vw;
+    }
+
+    p {
+        margin-top: 5vw;
+        font-size: 3vw;
     }
 
 

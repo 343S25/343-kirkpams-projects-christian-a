@@ -480,7 +480,8 @@ body.dark-mode .autocomplete-items div:hover {
     }
 
     #custom-form button {
-        width: 25%;
+        width: 8vw;
+        height: 3vw;
         margin-left: 0;
         padding: 0;
     }
@@ -508,6 +509,8 @@ body.dark-mode .autocomplete-items div:hover {
 
     #nutr-box-header button {
         font-size: 1.4vw;
+        height: 5vw;
+        width: 9vw;
     }
 
     #usda-search {
