@@ -65,12 +65,12 @@ body {
     display: flex;
     justify-content: space-evenly;
     flex-direction: row;
-    align-items: flex-end;
+    align-items: center;
 }
 
 .bio-butn {
-    width: 6vw;
-    height: 4vh;
+    position: relative;
+    top: 10px;
     margin-bottom: 2vh;
     display: flex;
     align-items: center;

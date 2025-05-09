@@ -162,15 +162,6 @@ body.dark-mode header {
         font-size: 1.5vw;
     }
 
-    #nav-expand {
-        background-color: #F5FAFF;
-        box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.2);
-        border-radius: 16px;
-        width: 75px;
-        height: 75px;
-        
-    }
-
     #title {
         text-align: center;
         margin-left: 3vw;
@@ -186,18 +177,28 @@ body.dark-mode header {
 
     #nav-expand {
         cursor: pointer;
+        display: flex; /* Add this */
+        align-items: center; /* Center icon vertically */
+        justify-content: center; /* Center icon horizontally */
+        background-color: #F5FAFF;
+        box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.2);
+        border-radius: 16px;
+        width: 75px;
+        height: 75px;
         position: relative;
     }
-
+    
     #nav-expand::before {
         content: "☰";
-        position: absolute;
-        top: 47%;
-        left: 50%;
-        transform: translate(-50%, -50%);
         font-size: 38px;
         color: #1E5078;
-        
+        transform: rotate(0deg);
+        transform-origin: center;
+        transition: transform 0.2s ease;
+    }
+    
+    #nav-expand.rotated::before {
+        transform: rotate(90deg);
     }
 
     #world-clock {

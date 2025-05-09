@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   navExpand.addEventListener("click", () => {
     menuBar.classList.toggle("show");
+    navExpand.classList.toggle("rotated");
   });
 
   fetchWorldTime();
@@ -45,4 +46,3 @@ function startClock(datetime) {
     updateClockDisplay(datetime);
   }, 1000);
 }
-
